@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ryan Miao的博客 - 知行合一</title><meta name="keywords" content="Java"><meta name="author" content="Ryan Miao"><meta name="copyright" content="Ryan Miao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="技术总结">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ryan Miao的博客">
+<meta property="og:url" content="http://blog.rmiao.top/index.html">
+<meta property="og:site_name" content="Ryan Miao的博客">
+<meta property="og:description" content="技术总结">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://blog.rmiao.top/null">
+<meta property="article:author" content="Ryan Miao">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.rmiao.top/null"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://blog.rmiao.top/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2020-11-11 21:34:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">92</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">60</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">42</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/Ryan-Miao/ryan-miao.github.io/image/index.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Ryan Miao的博客</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="site-info"><h1 id="site-title">Ryan Miao的博客</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/ryan-miao" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:woshimrf@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/11/java-synchronized/" title="Java基础之Synchronized原理">     <img class="post_bg" src="https://cn.bing.com/th?id=OHR.EsskastanieD_ZH-CN9736686128_UHD.jpg&amp;rf=LaDigue_UHD.jpg&amp;pid=hp&amp;w=2880&amp;h=1620&amp;rs=1&amp;c=4" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java基础之Synchronized原理"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/11/java-synchronized/" title="Java基础之Synchronized原理">Java基础之Synchronized原理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-11-11T12:46:40.000Z" title="Created 2020-11-11 20:46:40">2020-11-11</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content">
+思维导图svg:  https://note.youdao.com/ynoteshare1/index.html?id=eb05fdceddd07759b8b82c5b9094021a&amp;type=note
+在多线程使用共享资源的时候， 我们可以使用synchronized来锁定共享资源，使得同一时刻，只有一个线程可以访问和修改它，修改完毕后，其他线程才可以使用。这种方式叫做互斥锁。
+当一个共享数据被当前正在访问到线程添加了互斥锁之后，在同一时刻，其他线程只能等待，直到当前线程释放该锁。
+synchronized可以添加互斥锁，并且保证被其他线程看到。
+synchronized的三种应用方式synchronized关键字最主要有以下3种应用方式，下面分别介绍
+
+修饰实例方法，作用于当前实例加锁，进入同步代码钱要获得当前实例的锁
+修饰静态方法，作用于当前类对象加锁，进入同步代码前要获得当前类对象的锁
+修饰代码块，指定加锁对象，对给定对象加锁，进入同步代码块前要获得给定对象的锁
+
+synchronized作用于实例方法我们设置类变量static为共享资源， 然后多个线程去修改。修改 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2018/07/10/java-class-inheritance/" title="Java复习3-类的继承">     <img class="post_bg" src="https://cn.bing.com/th?id=OHR.LakotaBadlands_ZH-CN0151830089_UHD.jpg&amp;rf=LaDigue_UHD.jpg&amp;pid=hp&amp;w=2880&amp;h=1620&amp;rs=1&amp;c=4" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java复习3-类的继承"></a></div><div class="recent-post-info"><a class="article-title" href="/2018/07/10/java-class-inheritance/" title="Java复习3-类的继承">Java复习3-类的继承</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-07-10T11:58:14.000Z" title="Created 2018-07-10 19:58:14">2018-07-10</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content">前言本次学习面向对象设计的另外一个基本概念：继承（inheritance）。这是Java程序设计中的一项核心技术。另外，还要学习反射(reflection)的概念。
+
+
+继承类、超类、子类123public class Manager extends Employee&#123;    //...&#125;
+
+关键字extends表明正在构造的新类派生于一个已存在的类。已存在的类称为超类(superclass)**、基类(base class)或父类(parent class); 新类称为子类(sbclass)、派生类(derived class)、孩子类(childe class)**. 
+覆盖方法子类继承父类的字段和方法，但有些方法子类想要修改，可以使用**覆盖(override)**。
+12345678910111213141516171819202122232425262728293031323334353637383940414243public class Employee &#123;    private String name;    private int sal ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/07/07/java-class/" title="Java复习2-对象与类">Java复习2-对象与类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-07-07T07:27:14.000Z" title="Created 2018-07-07 15:27:14">2018-07-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content">回顾基础知识过程中遇到的感觉需要记录一下的知识点。
+封装我们设计的class应当尽可能的高内聚，体现为封装的程度。一个class的属性应该只能自己修改，其他class都只是与本class沟通，而不应该有能力修改。比较常见的一个问题是Date属性。
+业务开发中经常需要设计class的日期属性，比如birthday, createDate等。
+12345678public class User &#123;    private String name;    private Date birth;        public Date getBirth() &#123;        return this.birth;    &#125;&#125;
+
+我经常设计一个entity，填入字段，然后就直接getter, setter出去，尤其使用lombok后，更是连生成都改自动了。按照封装的要求，这样的做法是不合适的。因为其他class可以获取Date对象，Date对象是可变的。那么，就有可能会产生日期被修改的可能。
+如果项目有引入Findbugs的扫描，这个class肯定会被扫描出来的 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/07/06/java-data-type/" title="Java复习1-数据类型">Java复习1-数据类型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-07-06T09:03:26.000Z" title="Created 2018-07-06 17:03:26">2018-07-06</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content">数据类型整形
+
+
+type
+存储
+取值范围
+
+
+
+int
+4字节
+-2 147 483 648  ~ 2 147 483 647 (超过20亿)
+
+
+short
+2字节
+-32 768 ~ 32 7677
+
+
+long
+8字节
+-9 223 372 036 854 775 808 ~ 9 223 372 036 854 775 807
+
+
+byte
+1字节
+-128 ~ 127
+
+
+关于范围的计算，1字节=8位。 1byte 即8个1和0的组合范围。
+需要记住int是4个字节，32位。
+
+
+浮点类型
+
+
+type
+存储
+范围
+
+
+
+float
+4字节
+-2^128 ~ +2^127  有效位6~7位
+
+
+double
+8字节
+-2^1024 ~ +2^1023  有效位 15位
+
+
+double数值精度是float的两倍，绝大部分都应该采用double而不是float。
+字符charchar用来表示单个字符，Java中采用16位来表示，即2个字节。但现在unicode字符长度已经超过了65536，一个char并不能完全覆盖所有的字符。所以，通常不要用char，而是string，否则会有 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/07/04/springcloud-consumer/" title="SpringCloud学习6-如何创建一个服务消费者consumer">SpringCloud学习6-如何创建一个服务消费者consumer</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-07-04T11:44:12.000Z" title="Created 2018-07-04 19:44:12">2018-07-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud/">SpringCloud</a></span></div><div class="content">上一节如何创建一个服务提供者provider已经启动了一个provider的server，提供用户信息查询接口。接下来，我们启动另一个provider，由于是同一台机器本地测试，我们换一个端口
+1--server.port&#x3D;8084
+通过启动传参数覆盖port。这样，我们就有两个provider实例了。接下来，可以使用我们consumer负载均衡的消费这两个provider。
+
+
+升级eureka依赖eureka之前的pom依赖过期了，需要修改为
+1spring-cloud-starter-netflix-eureka-server
+
+同样的，所有的client都要修改为
+1spring-cloud-starter-netflix-eureka-client
+
+
+创建一个consumer工程创建一个子模块。    
+https://github.com/Ryan-Miao/spring-cloud-Edgware-demo/tree/master/consumer-demo
+配置基本和provider一致
+12345678910111213141516171819202122 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/07/04/springcloud-provider/" title="SpringCloud学习5-如何创建一个服务提供者provider">SpringCloud学习5-如何创建一个服务提供者provider</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-07-04T02:17:15.000Z" title="Created 2018-07-04 10:17:15">2018-07-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud/">SpringCloud</a></span></div><div class="content">前几篇主要集中在注册中心eureka的使用上，接下来可以创建服务提供者provider来注册到eureka。
+demo源码见： https://github.com/Ryan-Miao/spring-cloud-Edgware-demo/tree/master/provider-demo
+为了方便版本控制，接下来的项目都是基于https://github.com/Ryan-Miao/spring-cloud-Edgware-demo 这个parent配置的。
+
+
+创建子moudle provider-demo创建一个子module，项目名叫provider-demo. 填充springboot和springcloud依赖
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455&lt;dependencies&gt;  &lt;!--springboot 依赖start--&gt;  &lt;dependency&gt;    &lt;gro ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/06/29/centos-install-redis/" title="CentOS安装Redis">CentOS安装Redis</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-06-29T11:22:36.000Z" title="Created 2018-06-29 19:22:36">2018-06-29</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Redis/">Redis</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/Redis/CentOS/">CentOS</a></span></div><div class="content">123456&#x2F;&#x2F;如果没有yum源wget http:&#x2F;&#x2F;dl.fedoraproject.org&#x2F;pub&#x2F;epel&#x2F;6&#x2F;x86_64&#x2F;epel-release-6-8.noarch.rpmrpm -ivh epel-release-6-8.noarch.rpmyum install -y http:&#x2F;&#x2F;rpms.famillecollet.com&#x2F;enterprise&#x2F;remi-release-6.rpmyum install redis
+
+启动
+123service redis start ornohup redis-server &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1 &amp;
+
+
+客户端
+1redis-cli
+
+配置文件
+1&#x2F;etc&#x2F;redis.conf
+
+修改为允许远程连接
+12bind ip注释掉protected-mode no
+
+打开防火墙端口，
+123vim &#x2F;etc&#x2F ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/06/28/switch-gitcomment/" title="Hexo next主题使用gitment评论">Hexo next主题使用gitment评论</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-06-28T02:03:59.000Z" title="Created 2018-06-28 10:03:59">2018-06-28</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Hexo/">Hexo</a></span></div><div class="content">之前关闭的关闭，翻墙的翻墙，最后选择了Hypercomments，最近发现全部收费了。只好再换，想来github总不会挂了。于是转用gitment.
+如何使用可以参照官网 https://github.com/imsun/gitment#get-started
+我的修改过程首先，注释掉Hypercomments的配置。然后找到
+12345678910111213gitment:  enable: true  mint: true # RECOMMEND, A mint on Gitment, to support count, language and proxy_gateway  count: true # Show comments count in post meta area  lazy: false # Comments lazy loading with a button  cleanly: false # Hide &#39;Powered by ...&#39; on footer, and more  language: # Force language, or au ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/06/14/springcloud2-eureka/" title="SpringCloud2.0入门3-新的eureka依赖">SpringCloud2.0入门3-新的eureka依赖</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-06-14T13:23:15.000Z" title="Created 2018-06-14 21:23:15">2018-06-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud/">SpringCloud</a></span></div><div class="content">前言SpringCloud2.0推出有一段时间了，是要学习1.5+还是从2.0开始？犹豫的原因是资料不全，目前现有的资料大部分是1.0的。但作为学习者，肯定要学习最新的。不如，先试试。
+
+搭建Eureka注册中心关于Eureka的介绍，前文《SpringCloud入门1-服务注册与发现(Eureka)》已经学习过了。这次主要针对2.0重新刷新一下。
+Maven or Gradle看官方文档，可以看出spring是特别希望大家都转gradle的，我也用了一段时间，最后发现国内这个真不流行。这次转为maven构建。
+项目搭建新建一个springboot项目，添加eureka server的依赖。 
+项目地址：   
+https://github.com/Ryan-Miao/spring-cloud-demo/tree/master/eureka-server
+123456789101112131415161718192021222324252627282930313233&lt;properties&gt;    &lt;project.build.sourceEncoding&gt;UT ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2018/06/14/springcloud2-admin/" title="SpringCloud2.0入门4-springboot-admin监控">SpringCloud2.0入门4-springboot-admin监控</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2018-06-14T13:08:49.000Z" title="Created 2018-06-14 21:08:49">2018-06-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud/">SpringCloud</a></span></div><div class="content">前言上一节为springboot项目添加springboot-admin监控 学习了基于springboot1.5自己注册到admin的方法。接下来学习结合Eureka使用以及2.0的改变。
+
+
+1.5spring-boot-admin集成eureka我们继续上一节的项目修改，admin-server依赖修改如下
+123456789101112131415161718192021222324252627&lt;dependencies&gt;    &lt;dependency&gt;      &lt;groupId&gt;de.codecentric&lt;&#x2F;groupId&gt;      &lt;artifactId&gt;spring-boot-admin-starter-server&lt;&#x2F;artifactId&gt;    &lt;&#x2F;dependency&gt;    &lt;dependency&gt;      &lt;groupId&gt;de.codecentric&lt;&#x2F;groupId&gt;      &lt;art ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/null" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Ryan Miao</div><div class="author-info__description">技术总结</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">92</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">60</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">42</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ryan-miao" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:woshimrf@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/11/11/java-synchronized/" title="Java基础之Synchronized原理"><img src="https://cn.bing.com/th?id=OHR.EsskastanieD_ZH-CN9736686128_UHD.jpg&amp;rf=LaDigue_UHD.jpg&amp;pid=hp&amp;w=2880&amp;h=1620&amp;rs=1&amp;c=4" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java基础之Synchronized原理"/></a><div class="content"><a class="title" href="/2020/11/11/java-synchronized/" title="Java基础之Synchronized原理">Java基础之Synchronized原理</a><time datetime="2020-11-11T12:46:40.000Z" title="Created 2020-11-11 20:46:40">2020-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2018/07/10/java-class-inheritance/" title="Java复习3-类的继承"><img src="https://cn.bing.com/th?id=OHR.LakotaBadlands_ZH-CN0151830089_UHD.jpg&amp;rf=LaDigue_UHD.jpg&amp;pid=hp&amp;w=2880&amp;h=1620&amp;rs=1&amp;c=4" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java复习3-类的继承"/></a><div class="content"><a class="title" href="/2018/07/10/java-class-inheritance/" title="Java复习3-类的继承">Java复习3-类的继承</a><time datetime="2018-07-10T11:58:14.000Z" title="Created 2018-07-10 19:58:14">2018-07-10</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2018/07/07/java-class/" title="Java复习2-对象与类">Java复习2-对象与类</a><time datetime="2018-07-07T07:27:14.000Z" title="Created 2018-07-07 15:27:14">2018-07-07</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2018/07/06/java-data-type/" title="Java复习1-数据类型">Java复习1-数据类型</a><time datetime="2018-07-06T09:03:26.000Z" title="Created 2018-07-06 17:03:26">2018-07-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2018/07/04/springcloud-consumer/" title="SpringCloud学习6-如何创建一个服务消费者consumer">SpringCloud学习6-如何创建一个服务消费者consumer</a><time datetime="2018-07-04T11:44:12.000Z" title="Created 2018-07-04 19:44:12">2018-07-04</time></div></div></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>Categories</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Cache/"><span class="card-category-list-name">Cache</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/DI/"><span class="card-category-list-name">DI</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Dropwiard/"><span class="card-category-list-name">Dropwiard</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Dubbo/"><span class="card-category-list-name">Dubbo</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/English/"><span class="card-category-list-name">English</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Gradle/"><span class="card-category-list-name">Gradle</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Hexo/"><span class="card-category-list-name">Hexo</span><span class="card-category-list-count">7</span></a></li>
+            <li class="card-category-list-item more is-center"><a class="card-category-list-link-more" href="/categories/">
+                <span>More</span><i class="fas fa-angle-right"></i></a></li>
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/ArrayList/" style="font-size: 1.1em; color: #999">ArrayList</a> <a href="/tags/CI/" style="font-size: 1.1em; color: #999">CI</a> <a href="/tags/CentOS/" style="font-size: 1.25em; color: #999fa7">CentOS</a> <a href="/tags/DI/" style="font-size: 1.1em; color: #999">DI</a> <a href="/tags/Dropwizard/" style="font-size: 1.35em; color: #99a3b1">Dropwizard</a> <a href="/tags/Dubbo/" style="font-size: 1.1em; color: #999">Dubbo</a> <a href="/tags/ELK/" style="font-size: 1.1em; color: #999">ELK</a> <a href="/tags/EhCache/" style="font-size: 1.1em; color: #999">EhCache</a> <a href="/tags/English/" style="font-size: 1.1em; color: #999">English</a> <a href="/tags/Eureka/" style="font-size: 1.2em; color: #999da3">Eureka</a> <a href="/tags/Feign/" style="font-size: 1.1em; color: #999">Feign</a> <a href="/tags/Git/" style="font-size: 1.3em; color: #99a1ac">Git</a> <a href="/tags/Gradle/" style="font-size: 1.15em; color: #999b9e">Gradle</a> <a href="/tags/Guide/" style="font-size: 1.1em; color: #999">Guide</a> <a href="/tags/Hexo/" style="font-size: 1.35em; color: #99a3b1">Hexo</a> <a href="/tags/IDEA/" style="font-size: 1.1em; color: #999">IDEA</a> <a href="/tags/Install/" style="font-size: 1.1em; color: #999">Install</a> <a href="/tags/JSON/" style="font-size: 1.1em; color: #999">JSON</a> <a href="/tags/JVM/" style="font-size: 1.1em; color: #999">JVM</a> <a href="/tags/Java/" style="font-size: 1.5em; color: #99a9bf">Java</a> <a href="/tags/Java8/" style="font-size: 1.45em; color: #99a7ba">Java8</a> <a href="/tags/Javascript/" style="font-size: 1.15em; color: #999b9e">Javascript</a> <a href="/tags/Lambda/" style="font-size: 1.15em; color: #999b9e">Lambda</a> <a href="/tags/Linux/" style="font-size: 1.3em; color: #99a1ac">Linux</a> <a href="/tags/Mac/" style="font-size: 1.2em; color: #999da3">Mac</a> <a href="/tags/MongoDB/" style="font-size: 1.2em; color: #999da3">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 1.15em; color: #999b9e">MySQL</a> <a href="/tags/Nginx/" style="font-size: 1.15em; color: #999b9e">Nginx</a> <a href="/tags/NodeJS/" style="font-size: 1.2em; color: #999da3">NodeJS</a> <a href="/tags/PostgreSQL/" style="font-size: 1.1em; color: #999">PostgreSQL</a> <a href="/tags/ReactJS/" style="font-size: 1.15em; color: #999b9e">ReactJS</a> <a href="/tags/Redis/" style="font-size: 1.1em; color: #999">Redis</a> <a href="/tags/Server/" style="font-size: 1.1em; color: #999">Server</a> <a href="/tags/Spring/" style="font-size: 1.1em; color: #999">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 1.4em; color: #99a5b6">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 1.2em; color: #999da3">SpringMVC</a> <a href="/tags/Springboot/" style="font-size: 1.3em; color: #99a1ac">Springboot</a> <a href="/tags/Stream/" style="font-size: 1.35em; color: #99a3b1">Stream</a> <a href="/tags/Test/" style="font-size: 1.1em; color: #999">Test</a> <a href="/tags/UTF-8/" style="font-size: 1.1em; color: #999">UTF-8</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">November 2020</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/07/"><span class="card-archive-list-date">July 2018</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/06/"><span class="card-archive-list-date">June 2018</span><span class="card-archive-list-count">10</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/05/"><span class="card-archive-list-date">May 2018</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/04/"><span class="card-archive-list-date">April 2018</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/03/"><span class="card-archive-list-date">March 2018</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/02/"><span class="card-archive-list-date">February 2018</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/01/"><span class="card-archive-list-date">January 2018</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item more is-center"><a class="card-archive-list-link-more" href="/archives/">
+              <span>More</span><i class="fas fa-angle-right"  ></i></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">92</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">Last Push :</div><div class="item-count" id="last-push-date" data-lastPushDate="2020-11-11T13:34:41.902Z"></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 By Ryan Miao</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>

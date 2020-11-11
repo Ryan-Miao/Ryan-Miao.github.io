@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EhCache3 入门以及与Spring集成 | Ryan Miao的博客</title><meta name="keywords" content="EhCache,Spring"><meta name="author" content="Ryan Miao"><meta name="copyright" content="Ryan Miao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="post @ Ryan-Miao.github.io 1.介绍 Ehcache is an open source, standards-based cache that boosts performance, offloads your database, and simplifies scalability. It’s the most widely-used Java-based cache">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EhCache3 入门以及与Spring集成">
+<meta property="og:url" content="http://blog.rmiao.top/2017/05/23/Ehcache3%E5%85%A5%E9%97%A8-Spring%E9%9B%86%E6%88%90/index.html">
+<meta property="og:site_name" content="Ryan Miao的博客">
+<meta property="og:description" content="post @ Ryan-Miao.github.io 1.介绍 Ehcache is an open source, standards-based cache that boosts performance, offloads your database, and simplifies scalability. It’s the most widely-used Java-based cache">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://blog.rmiao.top/null">
+<meta property="article:published_time" content="2017-05-22T16:05:36.000Z">
+<meta property="article:modified_time" content="2020-11-10T13:25:51.128Z">
+<meta property="article:author" content="Ryan Miao">
+<meta property="article:tag" content="EhCache">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.rmiao.top/null"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://blog.rmiao.top/2017/05/23/Ehcache3%E5%85%A5%E9%97%A8-Spring%E9%9B%86%E6%88%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-11-10 21:25:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">92</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">60</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">42</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/Ryan-Miao/ryan-miao.github.io/image/index.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Ryan Miao的博客</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">EhCache3 入门以及与Spring集成</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2017-05-22T16:05:36.000Z" title="Created 2017-05-23 00:05:36">2017-05-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2020-11-10T13:25:51.128Z" title="Updated 2020-11-10 21:25:51">2020-11-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Cache/">Cache</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>post @ <a target="_blank" rel="noopener" href="https://ryan-miao.github.io/2017/05/21/Ehcache3%E5%85%A5%E9%97%A8-Spring%E9%9B%86%E6%88%90/">Ryan-Miao.github.io</a></p>
+<h1 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h1><blockquote>
+<p>Ehcache is an open source, standards-based cache that boosts performance, offloads your database, and simplifies scalability. It’s the most widely-used Java-based cache because it’s robust, proven, full-featured, and integrates with other popular libraries and frameworks. Ehcache scales from in-process caching, all the way to mixed in-process/out-of-process deployments with terabyte-sized caches.</p>
+</blockquote>
+<p>Ehcache是一个开源的，基于标准的缓存，可提升性能，卸载数据库，简化可扩展性。它是最广泛使用的基于Java的缓存，因为它是强大的，经过验证的，全功能的，并与其他受欢迎的库和框架集成。Ehcache可以从进程中缓存扩展到千万亿字节大小的高速缓存的混合进程内/进程外部署。</p>
+<a id="more"></a>
+<h2 id="1-1-关于版本"><a href="#1-1-关于版本" class="headerlink" title="1.1 关于版本"></a>1.1 关于版本</h2><p>EhCache分2.x和3.x两种版本，3.x的升级不兼容2.x。<br>2.x 的包名是<code>net.sf.ehcache</code>,3.x的包名是<code>org.ehcache</code>。<br>spring support包里ehcache就是集成2.x的，而3.x满足JCache (aka JSR-107) 标准，与spring集成采取JCache路线。  </p>
+<p>本次学习ehcache3.</p>
+<h2 id="1-2-Getting-Started"><a href="#1-2-Getting-Started" class="headerlink" title="1.2 Getting Started"></a>1.2 Getting Started</h2><p>添加ehcache以及jsr107的依赖</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">compile <span class="attr">group:</span> <span class="string">&#x27;org.ehcache&#x27;</span>, <span class="attr">name:</span> <span class="string">&#x27;ehcache&#x27;</span>, <span class="attr">version:</span> <span class="string">&#x27;3.3.1&#x27;</span></span><br><span class="line">compile <span class="attr">group:</span> <span class="string">&#x27;javax.cache&#x27;</span>, <span class="attr">name:</span> <span class="string">&#x27;cache-api&#x27;</span>, <span class="attr">version:</span> <span class="string">&#x27;1.0.0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>一个简单cache：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.ehcache.Cache;</span><br><span class="line"><span class="keyword">import</span> org.ehcache.CacheManager;</span><br><span class="line"><span class="keyword">import</span> org.ehcache.config.builders.CacheConfigurationBuilder;</span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.ehcache.config.builders.CacheConfigurationBuilder.newCacheConfigurationBuilder;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.ehcache.config.builders.CacheManagerBuilder.newCacheManagerBuilder;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.ehcache.config.builders.ResourcePoolsBuilder.heap;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.Assert.assertEquals;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testInit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String preConfiguredCacheName = <span class="string">&quot;preConfigured&quot;</span>;</span><br><span class="line"></span><br><span class="line">    CacheConfigurationBuilder&lt;Long, String&gt; configurationBuilder = newCacheConfigurationBuilder(Long.class, String.class, heap(<span class="number">2</span>));</span><br><span class="line">    CacheManager cacheManager = newCacheManagerBuilder()</span><br><span class="line">            .withCache(preConfiguredCacheName, configurationBuilder)</span><br><span class="line">            .build(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    Cache&lt;Long, String&gt; preConfiguredCache =</span><br><span class="line">            cacheManager.getCache(preConfiguredCacheName, Long.class, String.class);</span><br><span class="line"></span><br><span class="line">    String one = <span class="string">&quot;Ryan&quot;</span>;</span><br><span class="line">    preConfiguredCache.put(<span class="number">1L</span>, one);</span><br><span class="line">    String first = preConfiguredCache.get(<span class="number">1L</span>);</span><br><span class="line">    assertEquals(one, first);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    String two = <span class="string">&quot;Leslie&quot;</span>;</span><br><span class="line">    preConfiguredCache.put(<span class="number">2L</span>, two);</span><br><span class="line">    String second = preConfiguredCache.get(<span class="number">2L</span>);</span><br><span class="line">    assertEquals(two, second);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cacheManager.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于当前流行java配置，典型xml配置就不探究了，虽然xml配置更简洁，但我更喜欢java配置的可读性。</p>
+<p>创建cache要点：   </p>
+<ol>
+<li>需要一个<code>CacheManager</code>来管理cache。</li>
+<li>需要一个<code>CacheConfiguration</code>来制定创建cache的条件。</li>
+</ol>
+<p>本例中创建CacheManager的同时也创建了一个cache，其中制定了cache的key和value的类型以及cache的数量限制： heap(2)，即只允许在java堆中创建两个单位的cache。</p>
+<h2 id="1-3-创建cache"><a href="#1-3-创建cache" class="headerlink" title="1.3 创建cache"></a>1.3 创建cache</h2><p>当然也可以创建完CacheManger后创建cache：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Cache&lt;Long, String&gt; <span class="title">createCache</span><span class="params">(String cacheName, CacheManager cacheManager)</span> </span>&#123;</span><br><span class="line">    CacheConfiguration&lt;Long, String&gt; cacheConfiguration = newCacheConfigurationBuilder(Long.class, String.class, heap(<span class="number">10</span>))</span><br><span class="line">            .withSizeOfMaxObjectGraph(<span class="number">1000</span>)</span><br><span class="line">            .withSizeOfMaxObjectSize(<span class="number">1000</span>, MemoryUnit.B)</span><br><span class="line">            .withExpiry(Expirations.timeToLiveExpiration(Duration.of(<span class="number">20</span>, TimeUnit.HOURS)))</span><br><span class="line">            .build();</span><br><span class="line">    Cache&lt;Long, String&gt; myCache = cacheManager.createCache(cacheName,</span><br><span class="line">            cacheConfiguration);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> myCache;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>开始的第一个例子设置了cache的大小，而这里也用到了创建cache的几个限定条件： </p>
+<ul>
+<li>heap(10) 堆内存中最多缓存10个单位</li>
+<li>withSizeOfMaxObjectGraph 遍历一个对象图的时候的最多对象数</li>
+<li>withSizeOfMaxObjectSize 单个对象的最大size</li>
+<li>withExpiry 过期策略<ul>
+<li>timeToLiveExpiration  cache的生存时间，即创建cache后可以存在多久</li>
+<li>timeToIdleExpiration   cache的闲置时间，即最近一次使用cache之后最多可以闲置多久</li>
+<li>noExpiration 永不过期</li>
+</ul>
+</li>
+</ul>
+<p>到这里，创建cache基本完毕，还有一个需要注意的是cache逐出策略以及磁盘存储。</p>
+<h2 id="1-4-cache的其他存储方式"><a href="#1-4-cache的其他存储方式" class="headerlink" title="1.4 cache的其他存储方式"></a>1.4 cache的其他存储方式</h2><p>Ehcache3提供了4种存储策略：</p>
+<ul>
+<li>heap</li>
+<li>offheap</li>
+<li>disk</li>
+<li>clustered</li>
+</ul>
+<p>这4种存储方案的速率依次降低。关于cluster暂且不研究，因为当前主要做本地cache。</p>
+<p>首先heap就是指java堆内存，这个会被GC，所以最好数量不要太大。因为太多的cache就会造成堆内存可用内存减少，容易引起GC, stop the world. 这个可以选择存储引用（reference）或者值（value）, 默认为reference，不需要序列化和反序列化，速度最快。</p>
+<p>offheap是堆外内存，不会受GC影响，但必须以value的形式存储cache，这就会序列化和反序列化，造成性能比heap要慢。想启用offheap必须要确定是否开启了<code>-XX:MaxDirectMemorySize=size[g|G|m|M|k|K]</code>，如果没设置则默认不开启，就无法使用offheap。</p>
+<p>disk就是磁盘存储了，需要制定存储路径，当然速度也更慢。</p>
+<p>典型的存储方案是三层绑定，即heap-&gt;offheap-&gt;disk。<br><img src="http://www.ehcache.org/documentation/3.3/images/TiersHierarchy.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PersistentCacheManager persistentCacheManager = CacheManagerBuilder.newCacheManagerBuilder()</span><br><span class="line">  .with(CacheManagerBuilder.persistence(<span class="keyword">new</span> File(getStoragePath(), <span class="string">&quot;myData&quot;</span>)))</span><br><span class="line">  .withCache(<span class="string">&quot;threeTieredCache&quot;</span>,</span><br><span class="line">    CacheConfigurationBuilder.newCacheConfigurationBuilder(Long.class, String.class,</span><br><span class="line">      ResourcePoolsBuilder.newResourcePoolsBuilder()</span><br><span class="line">        .heap(<span class="number">10</span>, EntryUnit.ENTRIES)</span><br><span class="line">        .offheap(<span class="number">1</span>, MemoryUnit.MB)</span><br><span class="line">        .disk(<span class="number">20</span>, MemoryUnit.MB, <span class="keyword">true</span>)</span><br><span class="line">    )</span><br><span class="line">  ).build(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-5-关于逐出策略"><a href="#1-5-关于逐出策略" class="headerlink" title="1.5 关于逐出策略"></a>1.5 关于逐出策略</h2><p>当存储空间满了之后就必须选择加进去还是换出来。看官方文档，貌似不建议逐出策略，因为所有的example都没有逐出策略。在2.x版本红，我们可以选择LRU以及FIFO、LFU。在3.x中提供了<code>EvictionAdvisor</code>，通过继承此类可以实现采取哪种方式逐出。</p>
+<p>为啥不建议逐出呢，因为逐出策略会使得每次加入缓存和删除缓存都要多一次甚至多次比较，耗费性能。3.x里默认貌似是缓存满了就不添加了，当然这个具体是啥也没研究了，因为官方说即便你设置逐出策略，当命中率太低时会直接忽略并自行决定合适的逐出策略。   </p>
+<blockquote>
+<p>After a certain time, if a cache determines that the configured eviction advisor rejected too many eviction candidates, the cache can decide to completely bypass the eviction advisor and evict anything it sees fit.</p>
+</blockquote>
+<h2 id="1-6-关于统计命中"><a href="#1-6-关于统计命中" class="headerlink" title="1.6 关于统计命中"></a>1.6 关于统计命中</h2><p>3.x居然没有甚至还没打算是否暴露出本地统计的api，也就是说目前没有统计的办法了。但官方说因为EhCahe事先了JSR107的标准，可以采用JSR107标准中MBean的方法来统计，然而我也没找到怎么通过MBean来统计了。 这一点直接让我对3.x从入门到放弃，在没找到统计方法之前，不继续研究了！！！</p>
+<hr>
+<h2 id="post-Ryan-Miao-github-io"><a href="#post-Ryan-Miao-github-io" class="headerlink" title="post @ Ryan-Miao.github.io"></a>post @ <a target="_blank" rel="noopener" href="https://ryan-miao.github.io/2017/05/21/Ehcache3%E5%85%A5%E9%97%A8-Spring%E9%9B%86%E6%88%90/">Ryan-Miao.github.io</a></h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Ryan Miao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://blog.rmiao.top/2017/05/23/Ehcache3%E5%85%A5%E9%97%A8-Spring%E9%9B%86%E6%88%90/">http://blog.rmiao.top/2017/05/23/Ehcache3%E5%85%A5%E9%97%A8-Spring%E9%9B%86%E6%88%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/EhCache/">EhCache</a><a class="post-meta__tags" href="/tags/Spring/">Spring</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2017/06/17/banner-ascii-2-txt/"><img class="prev-cover" src="/" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">banner自动生成工具，ascii文字展示</div></div></a></div><div class="next-post pull-right"><a href="/2017/05/21/about/"><img class="next-cover" src="/" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info"></div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/null" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Ryan Miao</div><div class="author-info__description">技术总结</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">92</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">60</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">42</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ryan-miao" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:woshimrf@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">1.介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%85%B3%E4%BA%8E%E7%89%88%E6%9C%AC"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 关于版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-Getting-Started"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 Getting Started</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%88%9B%E5%BB%BAcache"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 创建cache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-cache%E7%9A%84%E5%85%B6%E4%BB%96%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 cache的其他存储方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-%E5%85%B3%E4%BA%8E%E9%80%90%E5%87%BA%E7%AD%96%E7%95%A5"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 关于逐出策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-%E5%85%B3%E4%BA%8E%E7%BB%9F%E8%AE%A1%E5%91%BD%E4%B8%AD"><span class="toc-number">1.6.</span> <span class="toc-text">1.6 关于统计命中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#post-Ryan-Miao-github-io"><span class="toc-number">1.7.</span> <span class="toc-text">post @ Ryan-Miao.github.io</span></a></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/11/11/java-synchronized/" title="Java基础之Synchronized原理"><img src="https://cn.bing.com/th?id=OHR.EsskastanieD_ZH-CN9736686128_UHD.jpg&amp;rf=LaDigue_UHD.jpg&amp;pid=hp&amp;w=2880&amp;h=1620&amp;rs=1&amp;c=4" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java基础之Synchronized原理"/></a><div class="content"><a class="title" href="/2020/11/11/java-synchronized/" title="Java基础之Synchronized原理">Java基础之Synchronized原理</a><time datetime="2020-11-11T12:46:40.000Z" title="Created 2020-11-11 20:46:40">2020-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2018/07/10/java-class-inheritance/" title="Java复习3-类的继承"><img src="https://cn.bing.com/th?id=OHR.LakotaBadlands_ZH-CN0151830089_UHD.jpg&amp;rf=LaDigue_UHD.jpg&amp;pid=hp&amp;w=2880&amp;h=1620&amp;rs=1&amp;c=4" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java复习3-类的继承"/></a><div class="content"><a class="title" href="/2018/07/10/java-class-inheritance/" title="Java复习3-类的继承">Java复习3-类的继承</a><time datetime="2018-07-10T11:58:14.000Z" title="Created 2018-07-10 19:58:14">2018-07-10</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2018/07/07/java-class/" title="Java复习2-对象与类">Java复习2-对象与类</a><time datetime="2018-07-07T07:27:14.000Z" title="Created 2018-07-07 15:27:14">2018-07-07</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2018/07/06/java-data-type/" title="Java复习1-数据类型">Java复习1-数据类型</a><time datetime="2018-07-06T09:03:26.000Z" title="Created 2018-07-06 17:03:26">2018-07-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2018/07/04/springcloud-consumer/" title="SpringCloud学习6-如何创建一个服务消费者consumer">SpringCloud学习6-如何创建一个服务消费者consumer</a><time datetime="2018-07-04T11:44:12.000Z" title="Created 2018-07-04 19:44:12">2018-07-04</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 By Ryan Miao</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>
